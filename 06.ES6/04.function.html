@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>函数</title>
+</head>
+<body>
+
+</body>
+<script>
+    /*
+    * 函数的默认值
+    * */
+    // es5
+    // function test(a,b) {
+    //     if(typeof a =="undefined"){
+    //         a=10;
+    //     }
+    //     if(typeof b =="undefined"){
+    //         b=20;
+    //     }
+    //     console.log(a, b);
+    // }
+    // test();
+    //
+    // //es5
+    // function test(a,b) {
+    //     a = a||10;
+    //     b = b||20;
+    //     console.log(a, b);
+    // }
+    // test();
+    //
+    // //es6
+    // function test(a=10,b=20) {
+    // console.log(a, b);
+    // }
+    // test();//10,20
+    //
+    // // 默认参数放在参数列表的末尾
+    // function test(a=10,b=20,c) {
+    //     console.log(a, b,c);
+    // }
+    // test("王五");//10,20,undefined
+
+    //rest参数
+    /*
+    * rest和arguments的异同点
+    * 相同点：都可以拿到参数列表
+    * 不同点：arguments是一个伪数组，rest是一个真数组
+    * */
+    // function test(...a) {
+    //     console.log(a);//真数组
+    //     console.log(arguments);//伪数组
+    // }
+    // test(1,2,3,4,5);
+
+
+    //箭头函数
+    // fn();//b
+    // var fn = function () {
+    //     console.log("a");
+    // }
+    // fn();//a
+    //
+    // //这里先声明，然后再生成var fn=fun,函数变量名提升
+    // function fn() {
+    //     console.log("b");
+    // }
+    // fn();//a
+
+
+    //箭头函数是对函数表达式的一种简写模式。
+    //有一个参数有返回值
+    // var fn = function (x) {
+    //    return x+3;
+    // }
+    // var fn = x=>x+3;
+    // console.log(fn(10));
+    //
+    // var fn = function (x) {
+    //     console.log(x);
+    // }
+    // var fn = x=>{
+    //     console.log(x);
+    // }
+    // fn(10);//10
+    //
+    // var fn = function (x) {
+    //     x=x+10;
+    //     console.log(x);
+    // }
+    // var fn = x=>{
+    //     x=x+10;
+    //     console.log(x);
+    // }
+    // fn(10);//20
+    //
+    // function fn(x,y) {
+    //     return x+y;
+    // }
+    // var fn = (x,y)=>x+y;
+    // console.log(fn(1, 2));//4
+    //
+    // function fn() {
+    //     return 3+2*3;
+    // }
+    // var fn = ()=>3+2*3;
+    // console.log(fn());//9
+
+    // var num = 4;
+    // var obj = {
+    //     num:3,
+    //     fn:()=>{
+    //         console.log(this.num);
+    //     }
+    // };
+    // obj.fn();//4
+
+    var num = 4;
+    var obj = {
+        num:3,
+        fn:function (){
+            return ()=>{
+                console.log(this.num);
+            }
+        }
+    };
+    obj.fn()();//3
+
+    //箭头函数取决于上下文环境
+    var num = 4;
+    var obj = {
+        num:3,
+        fn:function (){
+            return function(){
+                //this.指向为windows
+                console.log(this.num);
+            }
+        }
+    };
+    obj.fn()();//4
+
+    var num = 4;
+    var obj = {
+        num:3,
+        fn:function () {
+            setTimeout(function () {
+                console.log(this.num);
+            },2000)
+        }
+    }
+    obj.fn();//4
+    //
+    var num = 4;
+    var obj2 = {
+        num:5,
+        fn:function () {
+            setTimeout(()=>{
+                console.log(this.num);
+            },2000)
+        }
+    }
+    obj2.fn();//5
+    //
+    var num = 4;
+    var obj5 = {
+        num:3,
+        fn:function () {
+            setTimeout(()=> {
+                console.log(this.num);
+            },300);
+        }
+    }
+    obj5.fn.call({num:10});//10
+
+
+
+
+
+
+
+
+
+</script>
+</html>

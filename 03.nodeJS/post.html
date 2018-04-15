@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>post</title>
+</head>
+<body>
+    <form class="" action="/post" method="post"  enctype="multipart/form-data">
+         <!--如果要上传文件，编码类型为"multipart/form-data"-->
+        用户名：<input class="username" type="text" name="user"><br>
+        密码：<input class="password" type="password" name="pass"><br>
+        <button id="btn">点击发送ajax</button><br>
+            上传图片：<input type="file" name="files"><br>
+            <input type="submit" name="" value="上传图片">
+    </form>
+</body>
+<script>
+    var btn = document.getElementById("btn");
+    btn.onclick = function () {
+        var username = document.getElementsByClassName("username")[0].value;
+        var password = document.getElementsByClassName("password")[0].value;
+        var request = "";
+        //创建XMLhttpRequest对象
+        if(window.XMLHttpRequest){
+            request =  new XMLHttpRequest();
+        }else{
+            //兼容IE
+            request = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+    //打开ajax
+        request.open("post","/ajax",true);
+        var data = "name="+username+"&password="+password;
+        request.setRequestHeader("Content-type","application/x-www-urlencoded");
+        request.send(data);
+        request.onreadystatechange=function () {
+            if(request.readyState==4&&request.status==200){
+                console.log(request.responseText);
+            }
+        }
+    }
+</script>
+</html>

@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>解构赋值</title>
+</head>
+<body>
+
+</body>
+<script>
+    // <!--es5-->
+//     var person = {
+//         name:"张三",
+//         age:18
+//     }
+//     var name = person.name;
+//     var age = person.age;
+//     console.log(name, age);
+// /*
+// * 解构赋值：允许直接从对象或数组中直接提取需要的值
+// * */
+//     //es6
+//     let{name,age} = person;
+//     console.log(name, age);
+//
+//     //es5
+//     var a = 10,b=15,c=20;
+//     //es6
+//     //数据的解构与位置（下标），下标一样才能取值
+//     let[a,b,c] = [10,15,20];
+//     console.log(a, b, c);
+//
+//     let [a,b,,c]=[1,2,3,4]
+//     console.log(a, b, c);//1,2,4
+//     let[a,b,c]=[1,2,3,4];
+//     console.log(a, b, c);//1,2,3
+//
+//     let[a,b,c,d] = [1,2,3];
+//     console.log(a, b, c, d);//1,2,3,undefined
+//     //
+//     let[a,b,c] = [1,[2,3]];
+//     console.log(a, b, c);//1,[2,3],undefined
+//     //
+//     let[a,[b,c],[d,[e,f]]] = [1,[2,3],[4,[5,6]]];
+//     console.log(a, b, c, d, e, f);//1,2,3,4,5,6
+//     //
+//     //
+//     let{a,b} = {a:1,b:2}
+//     console.log(a, b);//1,2
+//     let{b,a} = {a:1,b:2}
+//     console.log(a, b);//1,2
+//
+//     let{b,c} = {a:1,b:2}
+//     console.log(b, c);//2,undefined
+
+//    扩展运算符 ...
+    let[a,...b] = [1,2,3,4];
+    console.log(a, b);//1,[2,3,4]
+
+    console.log(...[2, 3, 4]);//2,3,4
+
+    var person = {
+        name:"zhangsan",
+        age:18
+    }
+    console.log({...person});//{name:"zhangsan",age:18}
+
+
+</script>
+
+</html>

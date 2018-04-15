@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>模板字符串</title>
+</head>
+<body>
+    <table border="2">
+        <tr>
+            <th>产品名</th>
+            <th>价格</th>
+            <th>数量</th>
+        </tr>
+        <!--<tr>-->
+            <!--<td></td>-->
+            <!--<td></td>-->
+            <!--<td></td>-->
+        <!--</tr>-->
+
+    </table>
+
+</body>
+<script>
+    /*
+    * 模板字符串：定义是(``),相当于是php里的定界符，能够输出变量，以及换行符，制表符等其他字符
+    *
+    * */
+    let els = `<tr>
+    <td>模板</td>
+    <td>字</td>
+    <td>符</td>
+    <td>串</td>
+</tr>`;
+    document.getElementsByTagName("table")[0].innerHTML=els;
+
+//    变量输出${}
+    var age = 10;
+    let str =`小明今年${age}岁`;
+    console.log(str);
+
+    var carts = {
+        status:1,
+        count:2,
+        data:[{
+            productName:"帝豪香烟",
+            quantity:10,
+            price:25
+        },{
+            productName:"农夫山泉",
+            quantity:100,
+            price:2.5
+        }]
+    }
+    var data = carts.data;
+    var str = "";
+    for(var i in data){
+        var els=`
+        <tr>
+            <td>${data[i].productName}</td>
+            <td>${data[i].price}</td>
+            <td>${data[i].quantity}</td>
+        </tr>`;
+        str+=els;
+    }
+
+    document.getElementsByTagName("table")[0].innerHTML+=str;
+
+
+
+</script>
+</html>

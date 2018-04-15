@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>class和Object</title>
+</head>
+<body>
+
+</body>
+<script>
+    /*对象*/
+    var name = "张三";
+    var age = 18;
+    var obj={
+        //    name:name
+        name,
+        age,
+        say(){
+            console.log("sayHello");
+        }
+    }
+    console.log(obj);
+    obj.say();//sayHello
+
+
+
+    //类使用class声明，es5中的构造函数等同于，es6class中的构造器constructor
+    class People{
+        constructor(name,age){
+        //每一次实例化都会执行该方法
+            console.log(this);
+            this.name = name;
+            this.age = age;
+            // this.say = function () {
+            //     console.log(this.name);
+            // }
+        }
+    //constructor的外部就相当于构造函数的原型，一般方法放在这里
+        say(){
+            console.log(this.name);
+        }
+    }
+    var person1 = new People("zhangsan",58);
+    person1.say();
+    var person2 = new People("lisi",56);
+    person2.say();
+
+
+    //es5 继承
+    function Dad(name,age) {
+        this.name=  name;
+        this.age = age;
+
+    }
+    function Girl(name,age) {
+        Dad.call(this,name,age);
+    }
+
+/*
+* es6使用的是extends继承
+* class Girl extends Dad
+* 如果继承，构造器内部必须加上super
+* */
+    class Teacher extends People{
+        constructor(name,age,job){
+            super(name,age,job);
+            this.job=job;
+        }
+    }
+    var teacther = new Teacher("张梦",18,"讲师");
+    console.log(teacther);
+    teacther.say();
+
+
+</script>
+</html>

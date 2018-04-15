@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>es6</title>
+</head>
+<body>
+
+</body>
+<script>
+    /*
+    * let和var的区别
+    * 1.let块级作用域
+    * 2.let不能重复声明
+    * 3.let没有变量名提前
+    * 4.let有暂时性死区
+    *
+    * */
+    //1.块级作用域
+    {
+        let a = 10;
+        var b = 15;
+    }
+    console.log(b);//15
+    console.log(a);//a is not defined
+
+    //2.不能重复声明
+    let a = 10;
+    let a =15;
+    console.log(a);//Uncaught SyntaxError: Identifier 'a' has already been declared
+
+    //3.var没有暂时性死区
+    console.log(a);//undefined
+    var a = 10;
+    console.log(a);//a is not defined
+    let a = 10;
+
+    //4.let有暂时性死区
+    let a = 10;
+    if(true){
+        console.log(a);//a is not defined   打印之前的块作用域就是暂时性死区
+        let a = 10;
+    }
+
+    //常量，一经定义就不能更改的量。
+    const a =10;
+    console.log(a);
+    a = 15;//Uncaught TypeError: Assignment to constant variable.
+
+</script>
+</html>

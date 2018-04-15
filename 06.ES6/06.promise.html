@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>promise</title>
+    <style>
+        .ball1{
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: red;
+            position: absolute;
+        }
+        .ball2{
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: blue;
+            top:100px;
+            position: absolute;
+        }
+        .ball3{
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: green;
+            top:200px;
+            position: absolute;
+        }
+    </style>
+</head>
+<body>
+<div class="ball1"></div>
+<div class="ball2"></div>
+<div class="ball3"></div>
+
+</body>
+<script src="jquery-3.2.1.min.js"></script>
+<script>
+    var ball1 = $(".ball1");
+    var ball2 = $(".ball2");
+    var ball3 = $(".ball3");
+    // ball1.animate({
+    //     left:300
+    // },1000,function () {
+    //     ball2.animate({
+    //         left:300
+    //     },1000,function () {
+    //         ball3.animate({
+    //             left:300,
+    //             background:"black",
+    //             opacity:0.2
+    //         },1000,function () {
+    //             console.log("动画执行完成");
+    //         })
+    //     });
+    // });
+
+
+    /*
+    * 1.Promise是一个容器，内部存储的是未来会出现的结果，
+    * 2.Promise经常用于处理异步回调层层嵌套
+    * 3.resolve();传输异步处理成功的结果
+    * 4.Promise的原型有一个then用于接收resolve传输的值
+    * */
+    // console.dir(Promise);
+    // var promise = new Promise(function (resolve,reject) {
+    //     setTimeout(function () {
+    //         var num = Math.random();
+    //         console.log(num);
+    //         resolve(num);
+    //     },1000)
+    // })
+    // promise.then(function (num) {
+    //     console.log(num);
+    // })
+
+    //封装一个函数
+    function ballMove(ball,distance) {
+        return new Promise(function (resolve,reject) {
+            ball.animate({
+                left:distance
+            },1000,function () {
+                resolve();
+            })
+        })
+    }
+
+    ballMove(ball1,300).then(()=>{
+        return ballMove(ball2,300);
+    }).then(()=>{
+        return ballMove(ball3,300);
+    }).then(()=>{
+        return ballMove(ball1,0);
+    }).then(()=>{
+        return ballMove(ball2,0);
+    }).then( ()=> {
+        return ballMove(ball3,0);
+    }).then(()=> {
+        alert("动画完成了");
+    })
+
+/*
+* reject的作用
+* 1.输出异步处理的错误，该错误可以在then的第二个参数以回调函数
+* 2.也可以用其自身的catch方法进行捕捉错误
+* */
+  function rand() {
+      return new Promise(function (resolve,reject) {
+          setTimeout(function () {
+              var num = Math.random()*2;
+              if(num>1){
+                  resolve(num);
+              }else{
+                  var err = new Error(`数值错误，${num}不大于1`);
+                  reject(err);
+              }
+          },500);
+      });
+  }
+    /*
+    * Promise 如果内部异步并没有完成，仍处于pending的状态，
+    * 如果是异步操作是成功的话就会进入resolved状态
+    * 反之，失败就会进入rejected的状态
+    * */
+    console.log(rand());
+    var r = rand();
+    r.then(function (num) {
+        console.log(num);
+        console.log(r);//[[PromiseStatus]]:"resolved"
+    }).catch(function (err) {
+        console.log(r);//[[PromiseStatus]]:"rejected"
+        console.log(err);
+    })
+    // 通过then的第二个参数的回调函数捕捉错误
+    rand().then(function (num) {
+      console.log(num);
+  },function (err) {
+      console.error(err);
+  })
+   // 通过catch捕捉
+    rand().then(function (num) {
+        console.log(num);
+    }).catch(function (err) {
+        console.error(err);
+    })
+
+//    promise作业
+//    1.将原生ajax请求的改成Promise
+//    2.成功的结果通过then获得
+//    3.失败的警告通过catch输出
+//
+//     console.dir(Promise);
+
+    /*
+    * fetch:window对象中所定义的ajax请求方法
+    * fetch是经过Promise处理异步操作
+    * 请求的结果保存在一个Promise中
+    * */
+    // console.log(fetch());
+
+    //es6 ajax请求
+    // fetch("data.json").then(function (res) {
+    //     console.log(res);
+    //     //默认的将res的json处理方法
+    //     return res.json();
+    // }).then(function (json) {
+    //     console.log(json);
+    // }).catch(function (err) {
+    //     console.log(err);
+    // })
+
+//    封装es6 ajax Get请求
+    function ajax(url) {
+        return new Promise(function (resolve,reject) {
+            var ajax = new XMLHttpRequest();
+            ajax.open("GET",url,true);
+            ajax.send();
+            ajax.onreadystatechange = function () {
+                if (ajax.readyState!=4){
+                    return;
+                }
+
+                if(ajax.status==200){
+                    resolve(ajax.responseText);
+                } else {
+                    reject(new Error(ajax.status));
+                }
+            }
+
+        })
+
+    }
+
+    /*
+    * catch:会接收在链式结构内部出现的任何错误
+    * */
+    ajax("data.json").then(res =>{
+        console.log(res);
+        return new Promise(function (resolve,reject) {
+            resolve(JSON.parse(res));
+        })
+    }).then(function (obj) {
+        console.log(obj);
+    }).catch(err =>{
+        console.error(err);
+    })
+
+    /*
+    * Promise.all
+    * 同时处理处理多个Promise对象，并把结果统一返回
+    * */
+    function p1() {
+        return new Promise(function (resolve,reject) {
+            setTimeout(function () {
+                console.log("p1完成");
+                resolve("个人信息成功获取");
+            },200)
+        })
+    }
+    function p2() {
+        return new Promise(function (resolve,reject) {
+            setTimeout(function () {
+                console.log("p2完成");
+                resolve("好友列表成功获取");
+            },2000)
+        });
+    }
+
+
+    // Promise.all将p1和p2合成同一个promise
+    Promise.all([p1(),p2()]).then(function (msg) {
+        console.log(msg);
+    }).catch(function (err) {
+        console.error(err);
+    })
+
+
+    /*
+    * Promsie.race也可以同时处理多个promise，但是只要有一项任务完成，就会输出该项的结果，其他的不会输出
+    * Promise.race,哪个快哪个就执行，其他的就胎死腹中
+    * */
+    Promise.race([p1(),p2()]).then(function (msg) {
+        console.log(msg);//p1完成 个人信息成功获取 p2完成
+    }).catch(function (err) {
+        console.error(err);
+    })
+
+
+
+</script>
+</html>

@@ -1,0 +1,16 @@
+{
+  "status":1,
+  "count":2,
+  "data":[
+    {
+      "productName":"帝豪香烟",
+      "quantity":10,
+      "price":25
+    },
+    {
+      "productName":"矿泉水",
+      "quantity":100,
+      "price":2.5
+    }
+  ]
+}

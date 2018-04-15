@@ -1,0 +1,13 @@
+body{
+    background: aqua;
+
+}
+h1{
+    margin: 0 auto;
+    width:500px;
+    height: 500px;
+    color: red;
+    line-height: 500px;
+    text-align: center;
+    font-weight: bolder;
+}
